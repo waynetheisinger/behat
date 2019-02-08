@@ -14,7 +14,7 @@ RUN groupadd -g 999 appuser && \
 RUN mkdir /home/appuser && chown appuser:appuser /home/appuser
 COPY --from=composer:1.8.3 /usr/bin/composer /usr/bin/composer
 
-COPY composer.json /opt/behat/composer.json
+COPY composer.json /src/composer.json
 
 RUN chown -R appuser:appuser /opt/behat
 
@@ -22,12 +22,9 @@ USER appuser
 
 ENV COMPOSER_VERSION 1.8.3
 
-RUN \
-	# Install Behat
-	cd /opt/behat && \
-	composer install 2>&1
+RUN composer install 2>&1
 
-ENV PATH $PATH:/opt/behat/bin
+ENV PATH $PATH:/src/bin
 
 WORKDIR /src
 

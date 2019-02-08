@@ -16,7 +16,7 @@ COPY --from=composer:1.8.3 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json /src/composer.json
 
-RUN chown -R appuser:appuser /opt/behat
+RUN chown -R appuser:appuser /src
 
 USER appuser
 
@@ -24,7 +24,7 @@ ENV COMPOSER_VERSION 1.8.3
 
 RUN composer install 2>&1
 
-ENV PATH $PATH:/src/bin
+ENV PATH $PATH:/src/vendor/bin
 
 WORKDIR /src
 

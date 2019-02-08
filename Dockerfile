@@ -2,6 +2,11 @@ FROM wayneintacart/mage-ready
 
 MAINTAINER Wayne Theisinger <wayne@mowdirect.co.uk>
 
+RUN apt-get update \
+  && apt-get install -y \
+    git && \
+    apt-get clean
+
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser -d /home/appuser && \
     usermod -G www-data appuser

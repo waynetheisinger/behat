@@ -9,6 +9,8 @@ RUN groupadd -g 999 appuser && \
 RUN mkdir /home/appuser && chown appuser:appuser /home/appuser
 COPY --from=composer:1.8.3 /usr/bin/composer /usr/bin/composer
 
+USER appuser
+
 ENV COMPOSER_VERSION 1.8.3
 
 COPY composer.json /opt/behat/composer.json

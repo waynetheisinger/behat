@@ -22,7 +22,7 @@ USER appuser
 
 ENV COMPOSER_VERSION 1.8.3
 
-RUN composer install 2>&1
+RUN cd /src && composer install 2>&1
 
 ENV PATH $PATH:/src/vendor/bin
 

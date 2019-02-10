@@ -3,10 +3,6 @@ default:
   suites:
     default:
       contexts:
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
         - FeatureContext:
             parameters:
               screenshot_dir: %paths.base%/screenshots
@@ -27,18 +23,6 @@ default:
         wd_host: http://browser:4444/wd/hub
         capabilities: { "browser": "chrome", "version": "*" }
 
-    Drupal\DrupalExtension:
-      # Map template regions.
-      region_map:
-        header: "#header"
-        content: "#content"
-        footer: "#footer"
-      # Map selectors.
-      selectors:
-        message_selector: '#messages'
-        error_message_selector: '#messages .messages.error'
-        success_message_selector: '#messages .messages.status'
-
      # Behat HTML formatter.
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
       name: html
@@ -47,9 +31,3 @@ default:
       print_args: true
       print_outp: true
       loop_break: true
-
-docker:
-  extensions:
-    Behat\MinkExtension:
-      goutte: ~
-      selenium2: ~

@@ -3,3 +3,5 @@ screenshots
 
 html_report
 !html_report/.gitkeep
+
+/vendor/

@@ -2,43 +2,20 @@
 
 A self-contained Docker image to run Behat with no external dependencies.
 
-This image is part of the [Docksal](http://docksal.io) project.
-
 Features:
 
 - PHP7, Composer
 - Behat 3.x
-- DrupalExtension 3.x
 
 
 ## Usage
 
-Use this image as if you were using a binary.  
-Working directory is expected to be mounted at `/src` in the container.
-
-```
-$ docker run --rm -v $(pwd):/src docksal/behat --version
-behat version 3.1.0
-```
-
-You can also add a shell alias (in `.bashrc`, `.zshrc`, etc.) for convenience.
-
-```
-alias behat='docker run --rm -v $(pwd):/src docksal/behat --colors "$@"'
-```
-
-Restart your shell or open a new one, then
-
-```
-$ behat --version
-behat version 3.1.0
-```
-
+Use this image using the example folder as the basis to start.
 
 ## Sample setup
 
 Sample setup and tests can be found in the [example](example) folder.
- 
+
 Features:
 
 - Sample tests
@@ -48,40 +25,30 @@ Features:
 ### Using sample setup
 
 ```
-git clone https://github.com/docksal/behat.git docksal-behat
-cd docksal-behat/example
-behat features/blackbox.feature
+git clone https://github.com/https://github.com/waynetheisinger/behat behat
+cd behat/example
+docker-compose up -d
+./tools/runbehat features/basket.feature
 ```
-
-Note: if you did not add the shell alias, replace `behat` with `docker run --rm -v $(pwd):/src docksal/behat --colors`.
-
 
 ### Behat with Selenium
 
 To run Behat tests that require a real browser (e.g. for JavaScript support) a headless Selenium Chrome/Firefox can be used.
 
-There is a Docker Compose configuration in the example folder, that will get you up and running with a Selenium Chrome.
-
-```
-cd example
-docker-compose up -d
-./run-behat features/blackbox-javascript.feature
-```
-
-In this case, you get two containers - one running a built-in PHP server for access to HTML reports and one running Selenium. 
+In this case, you get two containers - one running a built-in PHP server for access to HTML reports and one running Selenium.
 Behat runs within the first container and talks to the Selenium container to run tests with a real browser (Chrome/Firefox).
 
 ### Switching between Chrome and Firefox
 
 1. Uncomment a respective line in `docker-compose.yml`:
- 
+
     ```
     # Pick/uncomment one
     image: selenium/standalone-chrome
     #image: selenium/standalone-firefox
     ```
 
-2. Update container configuration 
+2. Update container configuration
 
     ```
     docker-compose up -d
@@ -103,7 +70,7 @@ Behat runs within the first container and talks to the Selenium container to run
       wd_host: http://browser:4444/wd/hub
       capabilities: { "browser": "firefox", "version": "*" }
     ```
-    
+
 4. Run tests
 
 
@@ -119,5 +86,23 @@ Replace `<your-docker-host-ip>` as necessary (e.g. `localhost`).
 The following command will start a bash session in the container.
 
 ```
-docker run --rm -v $(pwd):/src -it --entrypoint=bash docksal/behat
+docker exec -itu appuser $(docker-compose ps -q behat) bash
 ```
+
+## Moving On
+This is my base container at the start of a BDD or TDD project however,
+you will probably finding yourself needing to install more testing frameworks.
+
+**For instance:**
+
+- phpspec/phpspec
+- codeception/codeception
+- phpunit/phpunit
+
+**And Static analysis tools:**
+
+- squizlabs/php_codesniffer
+- phpmd/phpmd
+- friendsofphp/php-cs-fixer
+
+see [Php the right way](https://phptherightway.com/#testing) for more details

@@ -4,7 +4,7 @@ A self-contained Docker image to run Behat with no external dependencies.
 
 Features:
 
-- PHP7, Composer
+- PHP5.6, Composer
 - Behat 3.x
 
 
